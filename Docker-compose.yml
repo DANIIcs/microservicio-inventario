@@ -16,7 +16,7 @@ services:
     restart: always
 
   app:
-    image: openjdk:17
+    build: .
     container_name: spring_app
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/inventario_db
@@ -24,14 +24,11 @@ services:
       - SPRING_DATASOURCE_PASSWORD=mysqlpass
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
     networks:
       - mynetwork
     depends_on:
       - mysql
     restart: always
-    entrypoint: ["sh", "-c", "dockerize -wait tcp://mysql_db:3306 -timeout 60s java -jar /app.jar"]
 
 networks:
   mynetwork:
