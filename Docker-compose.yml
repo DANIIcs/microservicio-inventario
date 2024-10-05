@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql
+    container_name: mysql_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=inventario_db
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
+    restart: always
+
+  app:
+    image: openjdk:17
+    container_name: spring_app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/inventario_db
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpass
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    networks:
+      - mynetwork
+    depends_on:
+      - mysql
+    restart: always
+    entrypoint: ["sh", "-c", "dockerize -wait tcp://mysql_db:3306 -timeout 60s java -jar /app.jar"]
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mysql_data:
