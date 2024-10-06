@@ -51,7 +51,10 @@ public class InventarioController {
             if ("incrementar".equals(accion)) {
                 inventario.setCantidad(inventario.getCantidad() + 1);
             } else if ("reducir".equals(accion)) {
-                inventario.setCantidad(Math.max(inventario.getCantidad() - 1, 0));
+                if (inventario.getCantidad() == 0) {
+                    return ResponseEntity.badRequest().body(null);  // Devuelve error si ya no queda stock
+                }
+                inventario.setCantidad(inventario.getCantidad() - 1);
             } else {
                 return ResponseEntity.badRequest().body(null);
             }
@@ -61,4 +64,5 @@ public class InventarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
