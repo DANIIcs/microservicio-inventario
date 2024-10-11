@@ -16,9 +16,8 @@ public class DemandaLibro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tituloLibro;        
-    private String autorLibro;         
-    private int vecesSolicitado;        
-    private String carreraMasSolicitante; 
-    private boolean esLibroDeReferencia; 
+    private String tituloLibro;   // Título del libro solicitado
+    private String carrera;       // Carrera de los estudiantes que más solicitan el libro
+    private int vecesSolicitado;  // Número de veces que se ha solicitado el libro
+
 }
