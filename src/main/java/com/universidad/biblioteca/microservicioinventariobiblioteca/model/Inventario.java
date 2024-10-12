@@ -18,6 +18,7 @@ public class Inventario {
     private Long id;
 
     private String producto;
+    private String descripcion;
     private int cantidad;
 
 }
